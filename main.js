@@ -4,6 +4,42 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+//Add .hidden class to error modal
+const errorModal = document.querySelector("#modal");
+
+//Create 'click' event listener on each button
+const likeBtns = document.getElementsByClassName("like-glyph");
+for (let likeBtn of likeBtns) {
+  likeBtn.addEventListener("click", function() {
+    if (likeBtn.textContent === EMPTY_HEART) {
+        mimicServerCall()
+        .then(likeBtn.textContent = FULL_HEART)
+        .then(likeBtn.className = "activated-heart")
+        .catch(error => {
+          errorModal.className = "";
+          errorModal.textContent = error;
+          likeBtn.textContent = EMPTY_HEART;
+          likeBtn.className = "";
+          setTimeout(()=> {
+            errorModal.className = "hidden";
+          }, 3000);
+        })
+    } else if (likeBtn.textContent === FULL_HEART) {
+        mimicServerCall()
+        .then(likeBtn.textContent = EMPTY_HEART)
+        .then(likeBtn.className = "")
+        .catch(error => {
+          errorModal.className = "";
+          errorModal.textContent = error;
+          likeBtn.textContent = FULL_HEART;
+          likeBtn.className = "activated-heart";
+          setTimeout(()=> {
+            errorModal.className = "hidden";
+          }, 3000);
+        })
+    }
+  })
+}
 
 
 
